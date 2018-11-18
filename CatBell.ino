@@ -7,7 +7,9 @@ Melody taken from https://www.arduino.cc/en/Tutorial/toneMelody
 #include "pitches.h"
 #include "Arduino.h"
 
-// defines pins numbers
+#define DISTANCETHRESHOLD 80
+
+// pins
 const int trigPin = 9;
 const int echoPin = 10;
 const int piezo = 3;
@@ -23,7 +25,7 @@ int melody[] = {
 int noteDurations[] = {
     4, 8, 8, 4, 4, 4, 4, 4};
 
-void playMelody()
+void playMelody() // Refer to linked melody guide
 {
   for (int thisNote = 0; thisNote < 8; thisNote++)
   {
@@ -55,7 +57,7 @@ void loop()
   Serial.print("Distance: ");
   Serial.println(distance);
 
-  if (distance < 70)
+  if (distance < DISTANCETHRESHOLD)
   {
     Serial.println("Triggered!");
     digitalWrite(led, HIGH);
