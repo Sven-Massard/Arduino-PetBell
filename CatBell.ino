@@ -1,4 +1,6 @@
 /*
+Cat Bell. Plays a tune when cat is on window sill.
+
 Guide for distance sensor: https://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/
 
 Melody taken from https://www.arduino.cc/en/Tutorial/toneMelody
@@ -25,6 +27,19 @@ int melody[] = {
 int noteDurations[] = {
     4, 8, 8, 4, 4, 4, 4, 4};
 
+void measureDistance() // Refer to linked distance sensor guide
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  Serial.print("Distance: ");
+  Serial.println(distance);
+}
+
 void playMelody() // Refer to linked melody guide
 {
   for (int thisNote = 0; thisNote < 8; thisNote++)
@@ -44,19 +59,10 @@ void setup()
   pinMode(echoPin, INPUT);
   Serial.begin(9600);
 }
+
 void loop()
 {
-  // Refer to linked distance sensor guide
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distance = duration * 0.034 / 2;
-  Serial.print("Distance: ");
-  Serial.println(distance);
-
+  measureDistance();
   if (distance < DISTANCETHRESHOLD)
   {
     Serial.println("Triggered!");
